@@ -6,7 +6,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>L.K.J Blog</title>
+        <title>L.K.J</title>
       </Head>
       <section className={styles.headingMd}>
         <p>[L.K.J Self Introduction]</p>
