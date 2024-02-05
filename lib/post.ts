@@ -1,37 +1,33 @@
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
 
-const postsDirectory = path.join(process.cwd(), 'posts')
-console.log('process.cwd()', process.cwd());
-console.log('postsDirectory', postsDirectory);
-
+const postsDirectory = path.join(process.cwd(), "posts");
 
 export function getSortedPostsData() {
   // posts 파일 이름 잡아주기
-  const fileNames = fs.readdirSync(postsDirectory)
+  const fileNames = fs.readdirSync(postsDirectory);
   // ['pre-rendering.md', ...]
-  console.log('fileNames', fileNames);
-  
+
   const allPostsData = fileNames.map(fileName => {
-    const id = fileName.replace(/\.md$/, '')
+    const id = fileName.replace(/\.md$/, "");
 
-    const fullPath = path.join(postsDirectory, fileName)
-    const fileContents = fs.readFileSync(fullPath, 'utf8')
+    const fullPath = path.join(postsDirectory, fileName);
+    const fileContents = fs.readFileSync(fullPath, "utf-8");
 
-    const matterResult = matter(fileContents)
+    const matterResult = matter(fileContents);
 
     return {
       id,
-      ...(matterResult.data as {data: string; title: string})
-    }
-  })
+      ...matterResult.data as { date: string; title: string }
+    };
+  });
 
   return allPostsData.sort((a, b) => {
-    if (a.data < b.data) {
+    if (a.date < b.date) {
       return 1
     } else {
       return -1
     }
-  })
+  });
 }
